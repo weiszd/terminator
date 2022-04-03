@@ -37,6 +37,21 @@ def eventkey2gdkevent(eventkey):  # FIXME FOR GTK3: is there a simpler way of ca
     gdkevent.key.is_modifier = eventkey.is_modifier
     return gdkevent
 
+def eventkey2gdkcopyevent(eventkey):  # FIXME FOR GTK3: is there a simpler way of casting from specific EventKey to generic (union) GdkEvent?
+    gdkevent = Gdk.Event.new(eventkey.type)
+    gdkevent.key.window = eventkey.window
+    gdkevent.key.send_event = eventkey.send_event
+    gdkevent.key.time = eventkey.time
+    gdkevent.key.state = eventkey.state
+    gdkevent.key.keyval = 99 #Ctrl-C
+    gdkevent.key.length = eventkey.length
+    gdkevent.key.string = eventkey.string
+    gdkevent.key.hardware_keycode = 54 #Ctrl-C
+    gdkevent.key.group = eventkey.group
+    gdkevent.key.is_modifier = eventkey.is_modifier
+    return gdkevent
+
+
 class Terminator(Borg):
     """master object for the application"""
 
@@ -568,6 +583,9 @@ class Terminator(Borg):
         for term in self.terminals:
             if term != terminal:
                 term.vte.emit(type, eventkey2gdkevent(event))
+                
+    def send_copy_key(self, terminal, event):
+        terminal.vte.emit('key-press-event', eventkey2gdkcopyevent(event))
 
     def do_enumerate(self, widget, pad):
         """Insert the number of each terminal in a group, into that terminal"""

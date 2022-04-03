@@ -925,6 +925,9 @@ class Terminal(Gtk.VBox):
                     return True
                 elif not self.config['smart_copy']:
                     return True
+                else:
+                    #Send Ctrl-C instead of Ctrl-Insert to prevent supressing it
+                    self.terminator.send_copy_key(self,event)
             else:
                 getattr(self, "key_" + mapping)()
                 return True
