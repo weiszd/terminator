@@ -103,6 +103,7 @@ DEFAULTS = {
             'custom_url_handler'    : '',
             'disable_real_transparency' : False,
             'inactive_color_offset': 0.8,
+            'inactive_bg_color_offset': 1.0,
             'enabled_plugins'       : ['LaunchpadBugURLHandler',
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],
@@ -138,6 +139,7 @@ DEFAULTS = {
             'go_right'         : '<Alt>Right',
             'rotate_cw'        : '<Super>r',
             'rotate_ccw'       : '<Super><Shift>r',
+            'split_auto'      :  '<Shift><Control>a',
             'split_horiz'      : '<Shift><Control>o',
             'split_vert'       : '<Shift><Control>e',
             'close_term'       : '<Shift><Control>w',
@@ -201,6 +203,7 @@ DEFAULTS = {
             'next_profile'     : '',
             'previous_profile' : '', 
             'preferences'      : '',
+            'preferences_keybindings' : '<Control><Shift>k',
             'help'             : 'F1'
         },
         'profiles': {
@@ -214,6 +217,9 @@ DEFAULTS = {
                 'background_darkness'   : 0.5,
                 'background_type'       : 'solid',
                 'background_image'      : '',
+                'background_image_mode' : 'stretch_and_fill',
+                'background_image_align_horiz': 'center',
+                'background_image_align_vert' : 'middle',
                 'backspace_binding'     : 'ascii-del',
                 'delete_binding'        : 'escape-sequence',
                 'color_scheme'          : 'grey_on_black',

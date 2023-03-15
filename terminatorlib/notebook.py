@@ -239,7 +239,7 @@ class Notebook(Container, Gtk.Notebook):
 
     def get_child_metadata(self, widget):
         """Fetch the relevant metadata for a widget which we'd need
-        to recreate it when it's readded"""
+        to recreate it when it's re-added"""
         metadata = {}
         metadata['tabnum'] = self.page_num(widget)
         label = self.get_tab_label(widget)
@@ -275,6 +275,7 @@ class Notebook(Container, Gtk.Notebook):
             widget.force_set_profile(None, profile)
 
         signals = {'close-term': self.wrapcloseterm,
+                   'split-auto': self.split_auto,
                    'split-horiz': self.split_horiz,
                    'split-vert': self.split_vert,
                    'title-change': self.propagate_title_change,
@@ -290,7 +291,9 @@ class Notebook(Container, Gtk.Notebook):
                    'ungroup-tab': top_window.ungroup_tab,
                    'move-tab': top_window.move_tab,
                    'tab-new': [top_window.tab_new, widget],
-                   'navigate': top_window.navigate_terminal}
+                   'navigate': top_window.navigate_terminal,
+                   'zoom': top_window.zoom,
+                   'maximise': [top_window.zoom, False]}
 
         if maker.isinstance(widget, 'Terminal'):
             for signal in signals:

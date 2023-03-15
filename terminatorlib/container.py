@@ -67,6 +67,16 @@ class Container(object):
         child is .remove()d and .add()ed"""
         return None
 
+    def split_auto(self, widget, cwd=None):
+        """Split this container automatically"""
+        width  = widget.get_allocation().width
+        height = widget.get_allocation().height
+        dbg("split as per current dimenstions:(%s %s)" % (width, height))
+        if width > height:
+            self.split_axis(widget, False, cwd)
+        else:
+            self.split_axis(widget, True , cwd)
+
     def split_horiz(self, widget, cwd=None):
         """Split this container horizontally"""
         return(self.split_axis(widget, True, cwd))
@@ -133,17 +143,6 @@ class Container(object):
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
         raise NotImplementedError('resizeterm')
-
-    def toggle_zoom(self, widget, fontscale = False):
-        """Toggle the existing zoom state"""
-        try:
-            if self.get_property('term_zoomed'):
-                self.unzoom(widget)
-            else:
-                self.zoom(widget, fontscale)
-        except TypeError:
-            err('Container::toggle_zoom: %s is unable to handle zooming, for \
-            %s' % (self, widget))
 
     def zoom(self, widget, fontscale = False):
         """Zoom a terminal"""
@@ -245,13 +244,13 @@ the tab will also close all terminals within it.')
 
         return(terminals)
 
-    def describe_layout(self, count, parent, global_layout, child_order):
+    def describe_layout(self, count, parent, global_layout, child_order, save_cwd = False):
         """Describe our current layout"""
         layout = {}
         maker = Factory()
         mytype = maker.type(self)
         if not mytype:
-            err('unable to detemine own type. %s' % self)
+            err('unable to determine own type. %s' % self)
             return({})
 
         layout['type'] = mytype
@@ -308,7 +307,7 @@ the tab will also close all terminals within it.')
         child_order = 0
         for child in self.get_children():
             if hasattr(child, 'describe_layout'):
-                count = child.describe_layout(count, name, global_layout, child_order)
+                count = child.describe_layout(count, name, global_layout, child_order, save_cwd)
             child_order = child_order + 1
 
         return(count)
