@@ -61,7 +61,7 @@ class Notebook(Container, Gtk.Notebook):
         #self.connect('page-reordered', self.on_page_reordered)
         self.set_scrollable(self.config['scroll_tabbar'])
 
-        if self.config['tab_position'] == 'hidden' or self.config['hide_tabbar']:
+        if self.config['tab_position'] == 'hidden':
             self.set_show_tabs(False)
         else:
             self.set_show_tabs(True)
@@ -191,7 +191,7 @@ class Notebook(Container, Gtk.Notebook):
             sibling.force_set_profile(None, widget.get_profile())
 
         self.insert_page(container, None, page_num)
-        self.set_tab_detachable(container, True)
+        self.set_tab_detachable(container, self.config['detachable_tabs'])
         self.child_set_property(container, 'tab-expand', True)
         self.child_set_property(container, 'tab-fill', True)
         self.set_tab_reorderable(container, True)
@@ -320,7 +320,7 @@ class Notebook(Container, Gtk.Notebook):
 
         dbg('inserting page at position: %s' % tabpos)
         self.insert_page(widget, None, tabpos)
-        self.set_tab_detachable(widget, True)
+        self.set_tab_detachable(widget, self.config['detachable_tabs'])
 
         if maker.isinstance(widget, 'Terminal'):
             containers, objects = ([], [widget])

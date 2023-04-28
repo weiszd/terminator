@@ -337,6 +337,9 @@ class PrefsEditor:
         # DBus Server
         widget = guiget('dbuscheck')
         widget.set_active(self.config['dbus'])
+        # Detachable tabs
+        widget = guiget('detachable_tabs')
+        widget.set_active(self.config['detachable_tabs'])
         #Hide from taskbar
         widget = guiget('hidefromtaskbcheck')
         widget.set_active(self.config['hide_from_taskbar'])
@@ -836,6 +839,10 @@ class PrefsEditor:
         self.config['dbus'] = widget.get_active()
         self.config.save()
 
+    def on_detachable_tabs_toggled(self, widget):
+        self.config['detachable_tabs'] = widget.get_active()
+        self.config.save()
+
     def on_disable_mousewheel_zoom_toggled(self, widget):
         """Ctrl+mousewheel zoom setting changed"""
         self.config['disable_mousewheel_zoom'] = widget.get_active()
@@ -956,11 +963,6 @@ class PrefsEditor:
     def on_login_shell_checkbutton_toggled(self, widget):
         """Login shell setting changed"""
         self.config['login_shell'] = widget.get_active()
-        self.config.save()
-
-    def on_scroll_background_checkbutton_toggled(self, widget):
-        """Scroll background setting changed"""
-        self.config['scroll_background'] = widget.get_active()
         self.config.save()
 
     def on_scroll_on_keystroke_checkbutton_toggled(self, widget):
